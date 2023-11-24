@@ -25,7 +25,6 @@ function App() {
           <Route path='/movie' element={<ProtectedRoute><MovieList movielist={movielist} setMovieList={setMovieList}/> </ProtectedRoute>}/>
           <Route path='/userprofile/edit' element={<ProtectedRoute><Editprofile/></ProtectedRoute>}/>
           <Route path='/userprofile' element={<ProtectedRoute><UserProfile/></ProtectedRoute>}/>
-          
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
            </Routes>
