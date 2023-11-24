@@ -3,13 +3,16 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { mockapi } from './mockapi';
 export function MovieDetails() {
-  const { id } = useParams();
-  console.log(id);
+  const {_id} = useParams();
+  console.log(_id);
   const nav=useNavigate();
   const [movie,setMovie]=useState({});
   useEffect(()=>{
-    fetch(`${mockapi}/movies/${id}`,{
+    fetch(`${mockapi}/movies/${_id}`,{
       method:"GET",
+      headers: {
+        "x-auth-token": localStorage.getItem("token"),
+         },
     })
     .then((data)=>data.json())
     .then((mvs)=>setMovie(mvs))

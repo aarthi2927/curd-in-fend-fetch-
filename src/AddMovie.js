@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { mockapi } from './mockapi';
-export function AddMovie() {
-  const [movielist,setMovieList]=useState([]);
+export function AddMovie({movielist,setMovieList}) {
+  //const [movielist,setMovieList]=useState([]);
   const [name, setName] = useState(" ");
   const [poster, setPoster] = useState("");
   const [rating, setRating] = useState("");
@@ -23,10 +23,12 @@ export function AddMovie() {
       starCast: starCast,
       rating: rating
     };
-    fetch(`${mockapi}/movies/`,
+    fetch(`${mockapi}/movies/add`,
     {method:"POST",
   body:JSON.stringify(newMovie),
-headers:{"Content-type":"application/json",}
+headers:{"Content-type":"application/json",
+  "x-auth-token": localStorage.getItem("token"),
+   }
   })
 .then(()=>history('/movie'));
 setMovieList([...movielist,newMovie])

@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { mockapi } from './mockapi';
-export function EditMovie() {
+export function EditMovie({movielist,setMovieList}) {
     const history=useNavigate();
-    const [movielist,setMovieList]=useState([]);
-    const {id}=useParams();
-    console.log(id,movielist);
+    //const [movielist,setMovieList]=useState([]);
+    const {_id}=useParams();
+    console.log(_id,movielist);
    const [movie,setMovie]=useState();
    const editmoive=()=>{
        //1. method must be PUT & pass id// 2. body - JSON data// 3. headers - JSON data
       // After PUT is complete -> movie to /movies
-    fetch(`${mockapi}/movies/${id}`)
+    fetch(`${mockapi}/movies/${_id}`,
+    {
+      method:"GET",
+      headers: {
+        "x-auth-token": localStorage.getItem("token"),
+         },
+    }
+    )
     .then((data)=>data.json())
     .then((mvs)=>setMovie(mvs))
-       .catch((err)=>console.log(err));
+    .catch((err)=>console.log(err));
     }
      useEffect(()=>editmoive(),[])
      console.log(movie);
@@ -41,10 +48,11 @@ export function EditMovieForm({movie}){
       starCast: starCast,
       rating: rating
     };
-    fetch(`${mockapi}/movies/${movie.id}`,
+    fetch(`${mockapi}/movies/${movie._id}`,
     {method:"PUT",
     body:JSON.stringify(movieupdate),
-    headers:{"Content-type":"application/json",}
+    headers:{"Content-type":"application/json",
+  "x-auth-token": localStorage.getItem("token")}
   }).then(()=>history("/movie"));
   
   }
